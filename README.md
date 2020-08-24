@@ -19,7 +19,7 @@ The code works with the following environment:
 
 ## Data
 
-Following [BioBERT](https://academic.oup.com/bioinformatics/article/36/4/1234/5566506), the data used in our paper can be found at [here](https://github.com/dmis-lab/biobert#datasets) (or [here](https://drive.google.com/open?id=1OletxmPYNkz2ltOr9pyT0b0iBtUWxslh)). You can see our sample data at [./data/sample_data](./data/sample_data) for reference.
+Following [BioBERT](https://academic.oup.com/bioinformatics/article/36/4/1234/5566506), the data used in our paper can be found at [here](https://github.com/dmis-lab/biobert#datasets) (or [here](https://drive.google.com/open?id=1OletxmPYNkz2ltOr9pyT0b0iBtUWxslh)). You can see our [sample data](./data/sample_data) for reference.
 
 ## Run on Sample Data
 
