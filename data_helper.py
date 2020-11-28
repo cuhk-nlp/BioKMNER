@@ -18,7 +18,6 @@ punctuation = ['。', '，', '、', '：', '？', '！', '（', '）', '“', '�
 chunk_pos = ['NP','PP','VP','ADVP','SBAR','ADJP','PRT','INTJ','CONJP','LST']
 
 
-
 class Find_Words:
     def __init__(self, min_count=10, max_count=10000000, min_pmi=0):
         self.min_count = min_count
@@ -88,12 +87,6 @@ def read_tsv(file_path):
             label = items[-1]
             sentence.append(character)
             labels.append(label)
-
-            # if character in ['，', '。', '？', '！', '：', '；', '（', '）', '、'] and len(sentence) > 64:
-            #     sentence_list.append(sentence)
-            #     label_list.append(labels)
-            #     sentence = []
-            #     labels = []
 
     return sentence_list, label_list
 
@@ -318,65 +311,6 @@ class stanford_feature_processor:
         return all_feature_data
 
 
-def oov_stat(data_dir):
-    oov_count = 0
-    word_count = 0
-    word = ''
-    char_count = 0
-    sentence_num = 0
-    oov_dict = {}
-    char_dict = {}
-    word_dict = {}
-
-    with open(path.join(data_dir, 'word2id.json'), 'r', encoding='utf8') as f:
-        word2id = json.loads(f.readline())
-
-    with open(path.join(data_dir, "test.tsv"), 'r', encoding='utf8') as f:
-        insentence = False
-        sentence_len = []
-        slen = 0
-        long_num = 0
-        for line in tqdm(f.readlines()):
-            line = line.strip()
-            if len(line) == 0:
-                if insentence:
-                    sentence_num += 1
-                    sentence_len.append(slen)
-                    if slen > 150:
-                        long_num += 1
-                    slen = 0
-                    insentence = False
-                continue
-            insentence = True
-            slen += 1
-            splits = line.split('\t')
-            character = splits[0]
-            label = splits[-1][0]
-            word += character
-            char_count += 1
-            char_dict[character] = 0
-            if label in ['S', 'E']:
-                word_count += 1
-                word_dict[word] = 0
-                if word not in word2id:
-                    oov_dict[word] = 0
-                    oov_count += 1
-                word = ''
-
-    print('# of sentences %d' % sentence_num)
-    print('# of chars %d' % char_count)
-    print('# of words: %d' % word_count)
-    print('# of unique char: %d' % len(char_dict))
-    print('% of OOV: ', (oov_count / word_count))
-    print('# of unique word %d' % len(word_dict))
-    print('# of OOV: %d' % oov_count)
-    print('# of unique OOV: %d' % len(oov_dict))
-    print('Max sentence len: %d' % max(sentence_len))
-    print('# of sentences whose len is longer than %d: %d' % (150, long_num))
-
-
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
@@ -387,12 +321,6 @@ if __name__ == "__main__":
                         help="The input data dir. Should contain the .tsv files (or other data files) for the task.")
 
     args = parser.parse_args()
-    base_min_freq = 1
-    av_threshold = 2
-
-    min_freq = base_min_freq
-
-    print('min freq: %d' % min_freq)
 
     data_dir =args.dataset
 
@@ -402,25 +330,12 @@ if __name__ == "__main__":
 
     get_word2id(data_dir)
 
-    # oov_stat(data_dir)
-    #
-    # request_features_from_stanford(data_dir, 'xxxxx')
-    # request_features_from_stanford(data_dir, 'train')
     if os.path.exists(path.join(data_dir, 'train' + '.tsv')):
         request_features_from_stanford(data_dir, 'train')
     if os.path.exists(path.join(data_dir, 'test' + '.tsv')):
         request_features_from_stanford(data_dir, 'test')
     if os.path.exists(path.join(data_dir, 'devel' + '.tsv')):
         request_features_from_stanford(data_dir, 'devel')
-
-
-    # request_features_from_stanford(data_dir, 'bc')
-    # request_features_from_stanford(data_dir, 'bn')
-    # request_features_from_stanford(data_dir, 'mz')
-    # request_features_from_stanford(data_dir, 'nw')
-    # request_features_from_stanford(data_dir, 'wb')
-    #
-
 
     sfp = stanford_feature_processor(data_dir)
     sfp._pre_processing()
