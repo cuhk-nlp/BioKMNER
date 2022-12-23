@@ -2,7 +2,14 @@
 
 This is the implementation of [Improving Biomedical Named Entity Recognition with Syntactic Information](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-020-03834-6) at BMC Bioinformatics.
 
-Please contact us at `yhtian@uw.edu` or `cuhksz.nlp@gmail.com` if you have any questions.
+Please contact us at `yhtian@uw.edu` if you have any questions.
+
+
+**Visit our [homepage](https://github.com/synlp/.github) to find more our recent research and softwares for NLP (e.g., pre-trained LM, POS tagging, NER, sentiment analysis, relation extraction, datasets, etc.).**
+
+## Upgrades of BioKMNER
+
+We are improving our BioKMNER. For updates, please visit [HERE](https://github.com/synlp/BioKMNER).
 
 
 ## Citation
